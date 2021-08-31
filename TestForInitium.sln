@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31410.357
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestForInitium", "TestForInitium\TestForInitium.csproj", "{D8846566-0645-4B57-AC56-7C2501E10BCD}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D8846566-0645-4B57-AC56-7C2501E10BCD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D8846566-0645-4B57-AC56-7C2501E10BCD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D8846566-0645-4B57-AC56-7C2501E10BCD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D8846566-0645-4B57-AC56-7C2501E10BCD}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {EF31744B-979E-45F3-979D-B6C375662830}
+	EndGlobalSection
+EndGlobal

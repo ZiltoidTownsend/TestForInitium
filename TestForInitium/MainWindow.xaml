@@ -1,0 +1,123 @@
+﻿<Window x:Class="TestForInitium.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:converters="clr-namespace:TestForInitium.Converters"
+        xmlns:local="clr-namespace:TestForInitium"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800" x:Name="WindowMain" WindowState="Maximized">
+    <Window.Resources>
+        <converters:DictToStringConverter x:Key="DictToStringConverter"/>
+        <converters:MimeTypeConverter x:Key="MimeTypeConverter"/>
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="10*"/>
+        </Grid.RowDefinitions>
+        <StackPanel Margin="5">
+            <TextBlock Text="{Binding StringFormat=Текущая директория: {0}, Path=path}" HorizontalAlignment="Center"/>
+            <TextBlock Text="{Binding StringFormat=Размер директории: {0} байт, Path=SizeFiles}" HorizontalAlignment="Center"/>
+            <TextBlock Text="{Binding StringFormat=Количество файлов в директори: {0}, Path=CountFiles}" HorizontalAlignment="Center"/>
+        </StackPanel>
+    <Grid Grid.Row="1" Margin="20">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <!--<ListBox ItemsSource="{Binding Directories}"></ListBox>-->
+        <TreeView Grid.Column="0" ItemsSource="{Binding Tree.TopLevelItems}">
+            <TreeView.ItemContainerStyle>
+                <Style TargetType="{x:Type TreeViewItem}">
+                    <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
+                </Style>
+            </TreeView.ItemContainerStyle>
+            <TreeView.ItemTemplate>
+                <HierarchicalDataTemplate ItemsSource="{Binding Children}">
+                    <!--Здесь можно задать любой шаблон для элемента-->
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="2*"/>
+                            <ColumnDefinition Width="2*"/>
+                        </Grid.ColumnDefinitions>
+                        <Image Grid.Column="0" Source="{Binding Source}" Height="15" Width="15"/>
+                            <TextBlock Grid.Column="1" Text="{Binding Name}" >
+                                <TextBlock.ToolTip>
+                                    <ToolTip>
+                                        <StackPanel>
+                                                <TextBlock Text="{Binding StringFormat=Размер: {0} байт, Path=Size}" Margin="10, 0, 0, 0"/>
+                                                <TextBlock Text="{Binding MimeType, Converter={StaticResource MimeTypeConverter}}" Margin="10, 0, 0, 0"/>
+                                            </StackPanel>
+                                    </ToolTip>
+                                </TextBlock.ToolTip>
+                            </TextBlock>
+
+                    </Grid>
+                    
+                </HierarchicalDataTemplate>
+            </TreeView.ItemTemplate>
+        </TreeView>
+
+        <Grid Grid.Column="1">
+            
+            <TextBlock HorizontalAlignment="Center" Text="{Binding StringFormat=Текущая директория: {0}, Path=path}"/>
+            <TextBlock Text="{Binding StringFormat=Всего файлов в директории: {0}, Path=CountFiles}"/>
+            <TextBlock Text="{Binding StringFormat=Размер директории: {0} байт, Path=SizeFiles}"/>
+            <TextBlock Text="{Binding StringFormat=Всего типов: {0}, Path=Tree.StatisticDict.Count}"/>
+
+            <ListView Grid.ColumnSpan="3" ItemsSource="{Binding Tree.StatisticDict}" ScrollViewer.VerticalScrollBarVisibility="Visible" ScrollViewer.CanContentScroll="True">
+                <ListView.View>
+                    <GridView>
+                        <GridView.Columns>
+                            <GridViewColumn Width="200" Header="MimeType" DisplayMemberBinding="{Binding MimeType}"/>
+                            <GridViewColumn Width="200" Header="Отношение">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock>
+                                            <TextBlock.Style>
+                                                <Style TargetType="TextBlock">
+                                                    <Setter Property="Text">
+                                                        <Setter.Value>
+                                                            <MultiBinding Converter="{StaticResource DictToStringConverter}" ConverterParameter="Count">
+                                                                <Binding Path="CountFiles"/>
+                                                                <Binding Path="DataContext.CountFiles" ElementName="WindowMain"/>
+                                                            </MultiBinding>
+                                                        </Setter.Value>
+                                                    </Setter>
+                                                </Style>
+                                            </TextBlock.Style>
+                                        </TextBlock>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn Width="200" Header="Средний размер файла">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock>
+                                            <TextBlock.Style>
+                                                <Style TargetType="TextBlock">
+                                                    <Setter Property="Text">
+                                                        <Setter.Value>
+                                                            <MultiBinding Converter="{StaticResource DictToStringConverter}" ConverterParameter="Size">
+                                                                <Binding Path="SizeAllFiles"/>
+                                                                <Binding Path="CountFiles"/>
+                                                            </MultiBinding>
+                                                        </Setter.Value>
+                                                    </Setter>
+                                                </Style>
+                                            </TextBlock.Style>
+                                        </TextBlock>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                        </GridView.Columns>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+        </Grid>
+    </Grid>
+    </Grid>
+</Window>
